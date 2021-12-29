@@ -35,6 +35,7 @@ async function run() {
     const reviewsCollection = database.collection('allReviews');
     //order
     const ordersCollection = database.collection('allOrders');
+    // --------------------Review------------------
     // add Review
     app.post('/addReview', async (req, res) => {
       const review = req.body;
@@ -48,6 +49,8 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+    // -----------------Review code end--------------------------
+    // -----------------Products code start-------------------------
     //to add product
     app.post('/addProduct', async (req, res) => {
       const productDetails = req.body;
@@ -70,7 +73,7 @@ async function run() {
       res.send(allproducts);
     });
 
-    //updating comment
+    //updating single Product by id
     app.put('/allproducts/:id', async (req, res) => {
       const id = req.params.id;
       const updatedProduct = req.body;
@@ -107,6 +110,9 @@ async function run() {
         console.log('No documents matched the query. Deleted 0 documents.');
       }
     });
+    // --------------------Adding product, updating, deleting it----Ends------------
+
+    // -----------Order related work------------------
     // get all orders
     app.get('/allOrders', async (req, res) => {
       const cursor = ordersCollection.find({});
@@ -154,6 +160,9 @@ async function run() {
       res.send(result);
       console.log(result);
     });
+    // -------------------Order related work ends here------------------
+
+    //------------User related work starts------------------------
     // finding the user is admin or not by email
     app.get('/users/:email', async (req, res) => {
       const email = req.params.email;
@@ -199,6 +208,9 @@ async function run() {
       const result = await usersCollection.updateOne(filter, updateDoc);
       res.json(result);
     });
+
+    // -----------------User related work end here--------------------
+    
   } finally {
     // await client.close();
   }
